@@ -14,7 +14,7 @@
     "autoprefixer": "^10.4.4",
     "eclint": "^2.8.1",
     "postcss": "^8.4.12",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.2",
     "react": "^18.0.0",
     "react-scripts": "5.0.0",
     "typescript": "^4.4.2"
