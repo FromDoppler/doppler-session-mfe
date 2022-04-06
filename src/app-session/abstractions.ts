@@ -4,6 +4,7 @@ export type AuthenticatedDopplerSessionState = {
   dopplerAccountName: string;
   unlayerUserId: string;
   unlayerUserSignature: string;
+  lang: "en" | "es";
 };
 
 export type DopplerSessionState =

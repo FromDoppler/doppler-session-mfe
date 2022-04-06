@@ -127,6 +127,7 @@ describe(runMonitor.name, () => {
       jwtToken: expect.any(String),
       unlayerUserId: expect.any(String),
       unlayerUserSignature: expect.any(String),
+      lang: expect.any(String),
     });
     expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
@@ -147,6 +148,7 @@ describe(runMonitor.name, () => {
       jwtToken: expect.any(String),
       unlayerUserId: expect.any(String),
       unlayerUserSignature: expect.any(String),
+      lang: expect.any(String),
     });
     expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
 
