@@ -27,12 +27,7 @@ export class DopplerLegacyClientImpl implements DopplerLegacyClient {
           jwtToken,
           user: {
             email: user.email,
-            fullname: user.fullname,
             lang: user.lang,
-            avatar: {
-              text: user.avatar.text,
-              color: user.avatar.color,
-            },
           },
           unlayerUser: {
             id: unlayerUser.id,
