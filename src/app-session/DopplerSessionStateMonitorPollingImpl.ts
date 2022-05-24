@@ -1,3 +1,4 @@
+import { DopplerLegacyClient } from "../doppler-legacy-client/abstractions";
 import {
   DopplerSessionState,
   DopplerSessionStateMonitor,
@@ -22,7 +23,7 @@ export class DopplerSessionStateMonitorPollingImpl
     keepAliveMilliseconds,
   }: {
     setInterval: (handler: TimerHandler, timeout: number) => number;
-    dopplerLegacyClient: any;
+    dopplerLegacyClient: DopplerLegacyClient;
     keepAliveMilliseconds: number;
   }) {
     this._setInterval = setInterval;
