@@ -5,11 +5,14 @@ type DopplerLegacyUserData = {
   user: {
     email: string;
     lang: string;
+    [prop: string]: any;
   };
   unlayerUser: {
     id: string;
     signature: string;
+    [prop: string]: any;
   };
+  [prop: string]: any;
 };
 
 type DopplerUserDataNotAvailableError = {

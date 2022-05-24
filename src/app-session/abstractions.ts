@@ -5,6 +5,7 @@ export type AuthenticatedDopplerSessionState = {
   unlayerUserId: string;
   unlayerUserSignature: string;
   lang: "en" | "es";
+  rawDopplerUserData: any;
 };
 
 export type DopplerSessionState =

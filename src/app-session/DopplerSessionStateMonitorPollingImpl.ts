@@ -41,6 +41,7 @@ export class DopplerSessionStateMonitorPollingImpl
           unlayerUserId: result.value.unlayerUser.id,
           unlayerUserSignature: result.value.unlayerUser.signature,
           lang: result.value.user.lang === "en" ? "en" : "es",
+          rawDopplerUserData: result.value,
         }
       : { status: "non-authenticated" };
   }

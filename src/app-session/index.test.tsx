@@ -128,6 +128,16 @@ describe(runMonitor.name, () => {
       unlayerUserId: expect.any(String),
       unlayerUserSignature: expect.any(String),
       lang: expect.any(String),
+      rawDopplerUserData: {
+        jwtToken: expect.any(String),
+        unlayerUser: expect.any(Object),
+        user: {
+          avatar: expect.any(Object),
+          email: expect.any(String),
+          fullname: expect.any(String),
+          lang: expect.any(String),
+        },
+      },
     });
     expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
@@ -149,6 +159,16 @@ describe(runMonitor.name, () => {
       unlayerUserId: expect.any(String),
       unlayerUserSignature: expect.any(String),
       lang: expect.any(String),
+      rawDopplerUserData: {
+        jwtToken: expect.any(String),
+        unlayerUser: expect.any(Object),
+        user: {
+          avatar: expect.any(Object),
+          email: expect.any(String),
+          fullname: expect.any(String),
+          lang: expect.any(String),
+        },
+      },
     });
     expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
 
