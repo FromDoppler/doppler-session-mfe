@@ -1,23 +1,6 @@
 import { DopplerLegacyClientImpl } from "./DopplerLegacyClientImpl";
 import { AxiosStatic } from "axios";
 
-const demoDopplerUserData = {
-  jwtToken: "session_token",
-  user: {
-    email: "user@email",
-    fullname: "user.fullname",
-    lang: "es",
-    avatar: {
-      text: "NN",
-      color: "#99CFB8",
-    },
-  },
-  unlayerUser: {
-    id: "user_id",
-    signature: "user_signature",
-  },
-};
-
 const createOkResponse = (data: any) => ({
   data: {
     ...data,
@@ -48,6 +31,25 @@ const createSut = ({ axiosInstance }: { axiosInstance: any }) =>
 describe(DopplerLegacyClientImpl.name, () => {
   it("should return the legacy user data when response is successful", async () => {
     // Arrange
+    const demoDopplerUserData = {
+      jwtToken: "session_token",
+      user: {
+        email: "user@email",
+        fullname: "user.fullname",
+        lang: "es",
+        avatar: {
+          text: "NN",
+          color: "#99CFB8",
+        },
+        undocumentedProp1: "undocumentedProp1",
+      },
+      unlayerUser: {
+        id: "user_id",
+        signature: "user_signature",
+        undocumentedProp2: "undocumentedProp2",
+      },
+      undocumentedProp3: "undocumentedProp3",
+    };
     const axiosInstance = {
       get: jest.fn(async () => createOkResponse(demoDopplerUserData)),
     };

@@ -1,3 +1,4 @@
+import { DopplerLegacyClient } from "../doppler-legacy-client/abstractions";
 import {
   DopplerSessionState,
   DopplerSessionStateMonitor,
@@ -22,7 +23,7 @@ export class DopplerSessionStateMonitorPollingImpl
     keepAliveMilliseconds,
   }: {
     setInterval: (handler: TimerHandler, timeout: number) => number;
-    dopplerLegacyClient: any;
+    dopplerLegacyClient: DopplerLegacyClient;
     keepAliveMilliseconds: number;
   }) {
     this._setInterval = setInterval;
@@ -40,6 +41,7 @@ export class DopplerSessionStateMonitorPollingImpl
           unlayerUserId: result.value.unlayerUser.id,
           unlayerUserSignature: result.value.unlayerUser.signature,
           lang: result.value.user.lang === "en" ? "en" : "es",
+          rawDopplerUserData: result.value,
         }
       : { status: "non-authenticated" };
   }

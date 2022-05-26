@@ -4,14 +4,15 @@ type DopplerLegacyUserData = {
   jwtToken: string;
   user: {
     email: string;
-    fullname: string;
     lang: string;
-    avatar: {
-      text: string;
-      color: string;
-    };
+    [prop: string]: any;
   };
-  unlayerUser: { id: string; signature: string };
+  unlayerUser: {
+    id: string;
+    signature: string;
+    [prop: string]: any;
+  };
+  [prop: string]: any;
 };
 
 type DopplerUserDataNotAvailableError = {
