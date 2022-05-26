@@ -5,23 +5,6 @@ import {
   GetDopplerUserDataResult,
 } from "../doppler-legacy-client/abstractions";
 
-const demoDopplerUserData = {
-  jwtToken: "session_token",
-  user: {
-    email: "user@email",
-    fullname: "user.fullname",
-    lang: "es",
-    avatar: {
-      text: "NN",
-      color: "#99CFB8",
-    },
-  },
-  unlayerUser: {
-    id: "user_id",
-    signature: "user_signature",
-  },
-};
-
 const createWindowDouble = () => {
   let intervalHandler: Function = () => {};
   let lastDispatchedEventRef = {
@@ -41,7 +24,7 @@ const createWindowDouble = () => {
   };
 };
 
-const createDopplerLegacyClientDouble = () => {
+const createDopplerLegacyClientDouble = (demoDopplerUserData: any) => {
   let getDopplerUserDataResolve: (result: GetDopplerUserDataResult) => void;
   const runResultResolvingGetDopplerUserData = async (
     result: GetDopplerUserDataResult
@@ -84,6 +67,26 @@ const createDopplerLegacyClientDouble = () => {
 describe(runMonitor.name, () => {
   it("should work recurrently as expected 😛", async () => {
     // Arrange
+    const demoDopplerUserData = {
+      jwtToken: "session_token",
+      user: {
+        email: "user@email",
+        fullname: "user.fullname",
+        lang: "es",
+        avatar: {
+          text: "NN",
+          color: "#99CFB8",
+        },
+        undocumentedProp1: "undocumentedProp1",
+      },
+      unlayerUser: {
+        id: "user_id",
+        signature: "user_signature",
+        undocumentedProp2: "undocumentedProp2",
+      },
+      undocumentedProp3: "undocumentedProp3",
+    };
+
     const keepAliveMilliseconds = 600000;
     const { window, lastDispatchedEventRef, runIntervalEvent } =
       createWindowDouble();
@@ -91,7 +94,7 @@ describe(runMonitor.name, () => {
       dopplerLegacyClient,
       runErrorResolvingGetDopplerUserData,
       runSuccessResolvingGetDopplerUserData,
-    } = createDopplerLegacyClientDouble();
+    } = createDopplerLegacyClientDouble(demoDopplerUserData);
 
     // Act
     // Initialization
@@ -123,21 +126,12 @@ describe(runMonitor.name, () => {
     // `authenticated`.
     expect(window.dopplerSessionState).toEqual({
       status: "authenticated",
-      dopplerAccountName: expect.any(String),
-      jwtToken: expect.any(String),
-      unlayerUserId: expect.any(String),
-      unlayerUserSignature: expect.any(String),
-      lang: expect.any(String),
-      rawDopplerUserData: {
-        jwtToken: expect.any(String),
-        unlayerUser: expect.any(Object),
-        user: {
-          avatar: expect.any(Object),
-          email: expect.any(String),
-          fullname: expect.any(String),
-          lang: expect.any(String),
-        },
-      },
+      dopplerAccountName: demoDopplerUserData.user.email,
+      jwtToken: demoDopplerUserData.jwtToken,
+      unlayerUserId: demoDopplerUserData.unlayerUser.id,
+      unlayerUserSignature: demoDopplerUserData.unlayerUser.signature,
+      lang: demoDopplerUserData.user.lang,
+      rawDopplerUserData: demoDopplerUserData,
     });
     expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
@@ -154,21 +148,12 @@ describe(runMonitor.name, () => {
     // we look forward to the server response for getDopplerUserData.
     expect(window.dopplerSessionState).toEqual({
       status: "authenticated",
-      dopplerAccountName: expect.any(String),
-      jwtToken: expect.any(String),
-      unlayerUserId: expect.any(String),
-      unlayerUserSignature: expect.any(String),
-      lang: expect.any(String),
-      rawDopplerUserData: {
-        jwtToken: expect.any(String),
-        unlayerUser: expect.any(Object),
-        user: {
-          avatar: expect.any(Object),
-          email: expect.any(String),
-          fullname: expect.any(String),
-          lang: expect.any(String),
-        },
-      },
+      dopplerAccountName: demoDopplerUserData.user.email,
+      jwtToken: demoDopplerUserData.jwtToken,
+      unlayerUserId: demoDopplerUserData.unlayerUser.id,
+      unlayerUserSignature: demoDopplerUserData.unlayerUser.signature,
+      lang: demoDopplerUserData.user.lang,
+      rawDopplerUserData: demoDopplerUserData,
     });
     expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
 
