@@ -1,5 +1,6 @@
 import { timeout } from "../common/utils";
 import { DopplerLegacyClient, GetDopplerUserDataResult } from "./abstractions";
+import testUserData from "./testUserData.json";
 
 let counter = 0;
 
@@ -12,16 +13,8 @@ export class DopplerLegacyClientDummyImpl implements DopplerLegacyClient {
         const result = {
           success: true as const,
           value: {
+            ...testUserData,
             jwtToken: `jwtToken-${counter++}`,
-            user: {
-              email: "test@test.com",
-              fullname: "Juan Perez",
-              lang: "es",
-              avatar: {
-                text: "JP",
-                color: "#99CFB8",
-              },
-            },
             unlayerUser: {
               id: "local_105690",
               signature:
