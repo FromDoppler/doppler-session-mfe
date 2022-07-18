@@ -1,4 +1,4 @@
-import { timeout } from "../common/utils";
+//import { timeout } from "../common/utils";
 import { DopplerLegacyClient, GetDopplerUserDataResult } from "./abstractions";
 import testUserData from "./testUserData.json";
 
@@ -9,7 +9,7 @@ export class DopplerLegacyClientDummyImpl implements DopplerLegacyClient {
     async () => {
       try {
         console.log("Begin getDopplerUserData...");
-        await timeout(3000);
+        //await timeout(3000); // Probar sin esto en INT
         const result = {
           success: true as const,
           value: {
