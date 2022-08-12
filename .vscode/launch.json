@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug CRA Tests",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
+        "args": ["test", "--runInBand", "--no-cache", "--watchAll=false"],
+        "cwd": "${workspaceRoot}",
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "env": { "CI": "true" },
+      },
+      {
+        "name": "Single Test",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
+        "args": ["test", "--runInBand", "--no-cache", "--watchAll=false", "--testNamePattern=\"should work recurrently as expected\""],
+        "cwd": "${workspaceRoot}",
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "env": { "CI": "true" },
+      }
+    ]
+  }
