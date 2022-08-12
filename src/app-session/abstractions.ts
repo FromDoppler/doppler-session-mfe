@@ -18,4 +18,5 @@ export type DopplerSessionStatus = DopplerSessionState["status"];
 export interface DopplerSessionStateMonitor {
   onSessionUpdate: (sessionState: DopplerSessionState) => void;
   start(): void;
+  stopAndDispose(): void;
 }
