@@ -24,31 +24,20 @@ const createWindowDouble = () => {
   };
 };
 
-const createDopplerLegacyClientDouble = (demoDopplerUserData: any) => {
+const createDopplerLegacyClientDouble = ({
+  getDopplerUserDataResults,
+}: {
+  getDopplerUserDataResults: GetDopplerUserDataResult[];
+}) => {
   let getDopplerUserDataResolve: (result: GetDopplerUserDataResult) => void;
-  const runResultResolvingGetDopplerUserData = async (
-    result: GetDopplerUserDataResult
-  ) => {
-    getDopplerUserDataResolve(result);
+
+  const resolveGetDopplerUserDataWithTheNextResult = async () => {
+    const result = getDopplerUserDataResults.shift();
+    if (result) {
+      getDopplerUserDataResolve(result);
+    }
     await timeout(0);
   };
-
-  const runErrorResolvingGetDopplerUserData = async () =>
-    runResultResolvingGetDopplerUserData({
-      success: false,
-      error: {
-        userDataNotAvailable: true,
-        innerError: new Error(),
-      },
-    });
-
-  const runSuccessResolvingGetDopplerUserData = async () =>
-    runResultResolvingGetDopplerUserData({
-      success: true,
-      value: {
-        ...demoDopplerUserData,
-      },
-    });
 
   return {
     dopplerLegacyClient: {
@@ -59,8 +48,7 @@ const createDopplerLegacyClientDouble = (demoDopplerUserData: any) => {
           })
       ),
     } as DopplerLegacyClient,
-    runErrorResolvingGetDopplerUserData,
-    runSuccessResolvingGetDopplerUserData,
+    resolveGetDopplerUserDataWithTheNextResult,
   };
 };
 
@@ -90,11 +78,23 @@ describe(runMonitor.name, () => {
     const keepAliveMilliseconds = 600000;
     const { window, lastDispatchedEventRef, runIntervalEvent } =
       createWindowDouble();
-    const {
-      dopplerLegacyClient,
-      runErrorResolvingGetDopplerUserData,
-      runSuccessResolvingGetDopplerUserData,
-    } = createDopplerLegacyClientDouble(demoDopplerUserData);
+    const getDopplerUserDataResults: GetDopplerUserDataResult[] = [
+      {
+        success: true,
+        value: {
+          ...demoDopplerUserData,
+        },
+      },
+      {
+        success: false,
+        error: {
+          userDataNotAvailable: true,
+          innerError: new Error(),
+        },
+      },
+    ];
+    const { dopplerLegacyClient, resolveGetDopplerUserDataWithTheNextResult } =
+      createDopplerLegacyClientDouble({ getDopplerUserDataResults });
 
     // Act
     // Initialization
@@ -119,7 +119,7 @@ describe(runMonitor.name, () => {
 
     // Act
     // Server responds successfully for getDopplerUserData
-    await runSuccessResolvingGetDopplerUserData();
+    await resolveGetDopplerUserDataWithTheNextResult();
 
     // Assert
     // After a successful response for getDopplerUserData, the status should be
@@ -160,7 +160,7 @@ describe(runMonitor.name, () => {
     // Act
     // Server responds with an error for getDopplerUserData, for example if the
     // user logs off in another tab
-    await runErrorResolvingGetDopplerUserData();
+    await resolveGetDopplerUserDataWithTheNextResult();
 
     // Assert
     // After an error response for getDopplerUserData, the status should be
