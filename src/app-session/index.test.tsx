@@ -52,30 +52,36 @@ const createDopplerLegacyClientDouble = ({
   };
 };
 
+const demoDopplerUserData = {
+  jwtToken: "session_token",
+  user: {
+    email: "user@email",
+    fullname: "user.fullname",
+    lang: "es",
+    avatar: {
+      text: "NN",
+      color: "#99CFB8",
+    },
+    undocumentedProp1: "undocumentedProp1",
+  },
+  unlayerUser: {
+    id: "user_id",
+    signature: "user_signature",
+    undocumentedProp2: "undocumentedProp2",
+  },
+  undocumentedProp3: "undocumentedProp3",
+};
+
+const demoErrorResult = {
+  userDataNotAvailable: true as const,
+  innerError: new Error(),
+};
+
+const keepAliveMilliseconds = 600000;
+
 describe(runMonitor.name, () => {
   it("should work recurrently as expected 😛", async () => {
     // Arrange
-    const demoDopplerUserData = {
-      jwtToken: "session_token",
-      user: {
-        email: "user@email",
-        fullname: "user.fullname",
-        lang: "es",
-        avatar: {
-          text: "NN",
-          color: "#99CFB8",
-        },
-        undocumentedProp1: "undocumentedProp1",
-      },
-      unlayerUser: {
-        id: "user_id",
-        signature: "user_signature",
-        undocumentedProp2: "undocumentedProp2",
-      },
-      undocumentedProp3: "undocumentedProp3",
-    };
-
-    const keepAliveMilliseconds = 600000;
     const { window, lastDispatchedEventRef, runIntervalEvent } =
       createWindowDouble();
     const getDopplerUserDataResults: GetDopplerUserDataResult[] = [
@@ -88,8 +94,7 @@ describe(runMonitor.name, () => {
       {
         success: false,
         error: {
-          userDataNotAvailable: true,
-          innerError: new Error(),
+          ...demoErrorResult,
         },
       },
     ];
