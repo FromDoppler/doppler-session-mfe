@@ -9,11 +9,9 @@ export type AuthenticatedDopplerSessionState = {
 };
 
 export type DopplerSessionState =
-  | { status: "unknown" }
+  | undefined
   | { status: "non-authenticated" }
   | AuthenticatedDopplerSessionState;
-
-export type DopplerSessionStatus = DopplerSessionState["status"];
 
 export interface DopplerSessionStateMonitor {
   onSessionUpdate: (sessionState: DopplerSessionState) => void;

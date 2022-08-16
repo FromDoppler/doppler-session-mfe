@@ -119,14 +119,8 @@ describe(runMonitor.name, () => {
     // After initialization, the status should be `unknown` while we look forward
     // to the server response for getDopplerUserData.
     expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
-    expect(window.dopplerSessionState).toEqual({
-      status: "unknown",
-    });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
-    expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
-    expect(lastDispatchedEventRef.value.type).toBe(
-      "doppler-session-state-update"
-    );
+    expect(window.dopplerSessionState).toBeUndefined();
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(0);
 
     // Act
     // Server responds successfully for getDopplerUserData
@@ -144,7 +138,7 @@ describe(runMonitor.name, () => {
       lang: demoDopplerUserData.user.lang,
       rawDopplerUserData: demoDopplerUserData,
     });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
     expect(lastDispatchedEventRef.value.type).toBe(
       "doppler-session-state-update"
@@ -166,7 +160,7 @@ describe(runMonitor.name, () => {
       lang: demoDopplerUserData.user.lang,
       rawDopplerUserData: demoDopplerUserData,
     });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
 
     // Act
     // Server responds with an error for getDopplerUserData, for example if the
@@ -179,7 +173,7 @@ describe(runMonitor.name, () => {
     expect(window.dopplerSessionState).toEqual({
       status: "non-authenticated",
     });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(3);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
     expect(lastDispatchedEventRef.value.type).toBe(
       "doppler-session-state-update"
@@ -188,7 +182,7 @@ describe(runMonitor.name, () => {
 
   it("should not notify session update if is disposed before first response", async () => {
     // Arrange
-    const { window, lastDispatchedEventRef, intervalID } = createWindowDouble();
+    const { window, intervalID } = createWindowDouble();
     const getDopplerUserDataResults: GetDopplerUserDataResult[] = [
       {
         success: false,
@@ -207,12 +201,8 @@ describe(runMonitor.name, () => {
     });
 
     expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
-    expect(window.dopplerSessionState?.status).toBe("unknown");
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
-    expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
-    expect(lastDispatchedEventRef.value.type).toBe(
-      "doppler-session-state-update"
-    );
+    expect(window.dopplerSessionState).toBeUndefined();
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(0);
 
     // Act
     monitor.stopAndDispose();
@@ -224,8 +214,8 @@ describe(runMonitor.name, () => {
     // Server responds with the error
     await resolveGetDopplerUserDataWithTheNextResult();
 
-    // Response is ignored because of the disposal, so the status still be unknown
-    expect(window.dopplerSessionState?.status).toBe("unknown");
+    // Response is ignored because of the disposal, so the state will still be undefined
+    expect(window.dopplerSessionState).toBeUndefined();
   });
 
   it("should not notify session update when is disposed after interval and before response", async () => {
@@ -261,7 +251,7 @@ describe(runMonitor.name, () => {
     runIntervalEvent();
 
     expect(window.dopplerSessionState?.status).toBe("authenticated");
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
     expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(2);
 
     // Act
@@ -305,7 +295,7 @@ describe(runMonitor.name, () => {
     // Server responds with success
     await resolveGetDopplerUserDataWithTheNextResult();
     expect(window.dopplerSessionState?.status).toBe("authenticated");
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
     expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
 
     // Act
@@ -320,7 +310,7 @@ describe(runMonitor.name, () => {
     await resolveGetDopplerUserDataWithTheNextResult();
     // Status is still authenticated
     expect(window.dopplerSessionState?.status).toBe("authenticated");
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
     expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
   });
 });

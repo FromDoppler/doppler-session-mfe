@@ -53,7 +53,6 @@ export class DopplerSessionStateMonitorPollingImpl
   }
 
   async start(): Promise<void> {
-    this.onSessionUpdate({ status: "unknown" });
     this._intervalID = this._setInterval(async () => {
       const userData = await this.fetchDopplerUserData();
       if (!this._disposed) {
