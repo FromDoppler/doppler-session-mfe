@@ -10,12 +10,18 @@ const createWindowDouble = () => {
   let lastDispatchedEventRef = {
     value: null as any,
   };
+  let intervalID = Math.floor(Math.random() * 1000);
   return {
     runIntervalEvent: () => intervalHandler(),
     lastDispatchedEventRef,
+    intervalID,
     window: {
       setInterval: jest.fn((handler: Function) => {
         intervalHandler = handler;
+        return intervalID;
+      }),
+      clearInterval: jest.fn((_intervalID: number) => {
+        intervalHandler = () => {};
       }),
       dispatchEvent: jest.fn((event) => {
         lastDispatchedEventRef.value = event;
@@ -24,31 +30,20 @@ const createWindowDouble = () => {
   };
 };
 
-const createDopplerLegacyClientDouble = (demoDopplerUserData: any) => {
+const createDopplerLegacyClientDouble = ({
+  getDopplerUserDataResults,
+}: {
+  getDopplerUserDataResults: GetDopplerUserDataResult[];
+}) => {
   let getDopplerUserDataResolve: (result: GetDopplerUserDataResult) => void;
-  const runResultResolvingGetDopplerUserData = async (
-    result: GetDopplerUserDataResult
-  ) => {
-    getDopplerUserDataResolve(result);
+
+  const resolveGetDopplerUserDataWithTheNextResult = async () => {
+    const result = getDopplerUserDataResults.shift();
+    if (result) {
+      getDopplerUserDataResolve(result);
+    }
     await timeout(0);
   };
-
-  const runErrorResolvingGetDopplerUserData = async () =>
-    runResultResolvingGetDopplerUserData({
-      success: false,
-      error: {
-        userDataNotAvailable: true,
-        innerError: new Error(),
-      },
-    });
-
-  const runSuccessResolvingGetDopplerUserData = async () =>
-    runResultResolvingGetDopplerUserData({
-      success: true,
-      value: {
-        ...demoDopplerUserData,
-      },
-    });
 
   return {
     dopplerLegacyClient: {
@@ -59,42 +54,58 @@ const createDopplerLegacyClientDouble = (demoDopplerUserData: any) => {
           })
       ),
     } as DopplerLegacyClient,
-    runErrorResolvingGetDopplerUserData,
-    runSuccessResolvingGetDopplerUserData,
+    resolveGetDopplerUserDataWithTheNextResult,
   };
 };
+
+const demoDopplerUserData = {
+  jwtToken: "session_token",
+  user: {
+    email: "user@email",
+    fullname: "user.fullname",
+    lang: "es",
+    avatar: {
+      text: "NN",
+      color: "#99CFB8",
+    },
+    undocumentedProp1: "undocumentedProp1",
+  },
+  unlayerUser: {
+    id: "user_id",
+    signature: "user_signature",
+    undocumentedProp2: "undocumentedProp2",
+  },
+  undocumentedProp3: "undocumentedProp3",
+};
+
+const demoErrorResult = {
+  userDataNotAvailable: true as const,
+  innerError: new Error(),
+};
+
+const keepAliveMilliseconds = 600000;
 
 describe(runMonitor.name, () => {
   it("should work recurrently as expected 😛", async () => {
     // Arrange
-    const demoDopplerUserData = {
-      jwtToken: "session_token",
-      user: {
-        email: "user@email",
-        fullname: "user.fullname",
-        lang: "es",
-        avatar: {
-          text: "NN",
-          color: "#99CFB8",
-        },
-        undocumentedProp1: "undocumentedProp1",
-      },
-      unlayerUser: {
-        id: "user_id",
-        signature: "user_signature",
-        undocumentedProp2: "undocumentedProp2",
-      },
-      undocumentedProp3: "undocumentedProp3",
-    };
-
-    const keepAliveMilliseconds = 600000;
     const { window, lastDispatchedEventRef, runIntervalEvent } =
       createWindowDouble();
-    const {
-      dopplerLegacyClient,
-      runErrorResolvingGetDopplerUserData,
-      runSuccessResolvingGetDopplerUserData,
-    } = createDopplerLegacyClientDouble(demoDopplerUserData);
+    const getDopplerUserDataResults: GetDopplerUserDataResult[] = [
+      {
+        success: true,
+        value: {
+          ...demoDopplerUserData,
+        },
+      },
+      {
+        success: false,
+        error: {
+          ...demoErrorResult,
+        },
+      },
+    ];
+    const { dopplerLegacyClient, resolveGetDopplerUserDataWithTheNextResult } =
+      createDopplerLegacyClientDouble({ getDopplerUserDataResults });
 
     // Act
     // Initialization
@@ -108,18 +119,12 @@ describe(runMonitor.name, () => {
     // After initialization, the status should be `unknown` while we look forward
     // to the server response for getDopplerUserData.
     expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
-    expect(window.dopplerSessionState).toEqual({
-      status: "unknown",
-    });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
-    expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
-    expect(lastDispatchedEventRef.value.type).toBe(
-      "doppler-session-state-update"
-    );
+    expect(window.dopplerSessionState).toBeUndefined();
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(0);
 
     // Act
     // Server responds successfully for getDopplerUserData
-    await runSuccessResolvingGetDopplerUserData();
+    await resolveGetDopplerUserDataWithTheNextResult();
 
     // Assert
     // After a successful response for getDopplerUserData, the status should be
@@ -133,7 +138,7 @@ describe(runMonitor.name, () => {
       lang: demoDopplerUserData.user.lang,
       rawDopplerUserData: demoDopplerUserData,
     });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
     expect(lastDispatchedEventRef.value.type).toBe(
       "doppler-session-state-update"
@@ -155,12 +160,12 @@ describe(runMonitor.name, () => {
       lang: demoDopplerUserData.user.lang,
       rawDopplerUserData: demoDopplerUserData,
     });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
 
     // Act
     // Server responds with an error for getDopplerUserData, for example if the
     // user logs off in another tab
-    await runErrorResolvingGetDopplerUserData();
+    await resolveGetDopplerUserDataWithTheNextResult();
 
     // Assert
     // After an error response for getDopplerUserData, the status should be
@@ -168,10 +173,144 @@ describe(runMonitor.name, () => {
     expect(window.dopplerSessionState).toEqual({
       status: "non-authenticated",
     });
-    expect(window.dispatchEvent).toHaveBeenCalledTimes(3);
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
     expect(lastDispatchedEventRef.value.type).toBe(
       "doppler-session-state-update"
     );
+  });
+
+  it("should not notify session update if is disposed before first response", async () => {
+    // Arrange
+    const { window, intervalID } = createWindowDouble();
+    const getDopplerUserDataResults: GetDopplerUserDataResult[] = [
+      {
+        success: false,
+        error: {
+          ...demoErrorResult,
+        },
+      },
+    ];
+    const { dopplerLegacyClient, resolveGetDopplerUserDataWithTheNextResult } =
+      createDopplerLegacyClientDouble({ getDopplerUserDataResults });
+
+    const monitor = runMonitor({
+      window,
+      dopplerLegacyClient,
+      keepAliveMilliseconds,
+    });
+
+    expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
+    expect(window.dopplerSessionState).toBeUndefined();
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(0);
+
+    // Act
+    monitor.stopAndDispose();
+
+    // Assert
+    expect(window.clearInterval).toHaveBeenCalledTimes(1);
+    expect(window.clearInterval).toHaveBeenCalledWith(intervalID);
+
+    // Server responds with the error
+    await resolveGetDopplerUserDataWithTheNextResult();
+
+    // Response is ignored because of the disposal, so the state will still be undefined
+    expect(window.dopplerSessionState).toBeUndefined();
+  });
+
+  it("should not notify session update when is disposed after interval and before response", async () => {
+    // Arrange
+    const { window, runIntervalEvent, intervalID } = createWindowDouble();
+    const getDopplerUserDataResults: GetDopplerUserDataResult[] = [
+      {
+        success: true,
+        value: {
+          ...demoDopplerUserData,
+        },
+      },
+      {
+        success: false,
+        error: {
+          ...demoErrorResult,
+        },
+      },
+    ];
+    const { dopplerLegacyClient, resolveGetDopplerUserDataWithTheNextResult } =
+      createDopplerLegacyClientDouble({ getDopplerUserDataResults });
+
+    const monitor = runMonitor({
+      window,
+      dopplerLegacyClient,
+      keepAliveMilliseconds,
+    });
+
+    // Server responds with success
+    await resolveGetDopplerUserDataWithTheNextResult();
+
+    // The time has elapsed and the interval is executed
+    runIntervalEvent();
+
+    expect(window.dopplerSessionState?.status).toBe("authenticated");
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
+    expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(2);
+
+    // Act
+    monitor.stopAndDispose();
+    // Server responds with error
+    await resolveGetDopplerUserDataWithTheNextResult();
+
+    // Assert
+    expect(window.clearInterval).toHaveBeenCalledTimes(1);
+    expect(window.clearInterval).toHaveBeenCalledWith(intervalID);
+    // Last response is ignored because of the disposal, so the status still be unknown
+    expect(window.dopplerSessionState?.status).toBe("authenticated");
+  });
+
+  it("should not request when is disposed before interval", async () => {
+    // Arrange
+    const { window, runIntervalEvent, intervalID } = createWindowDouble();
+    const getDopplerUserDataResults: GetDopplerUserDataResult[] = [
+      {
+        success: true,
+        value: {
+          ...demoDopplerUserData,
+        },
+      },
+      {
+        success: false,
+        error: {
+          ...demoErrorResult,
+        },
+      },
+    ];
+    const { dopplerLegacyClient, resolveGetDopplerUserDataWithTheNextResult } =
+      createDopplerLegacyClientDouble({ getDopplerUserDataResults });
+
+    const monitor = runMonitor({
+      window,
+      dopplerLegacyClient,
+      keepAliveMilliseconds,
+    });
+
+    // Server responds with success
+    await resolveGetDopplerUserDataWithTheNextResult();
+    expect(window.dopplerSessionState?.status).toBe("authenticated");
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
+    expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
+
+    // Act
+    monitor.stopAndDispose();
+
+    // Assert
+    expect(window.clearInterval).toHaveBeenCalledTimes(1);
+    expect(window.clearInterval).toHaveBeenCalledWith(intervalID);
+    // The time has elapsed (but the interval is not executed)
+    runIntervalEvent();
+    // It never happens because of the disposal
+    await resolveGetDopplerUserDataWithTheNextResult();
+    // Status is still authenticated
+    expect(window.dopplerSessionState?.status).toBe("authenticated");
+    expect(window.dispatchEvent).toHaveBeenCalledTimes(1);
+    expect(dopplerLegacyClient.getDopplerUserData).toHaveBeenCalledTimes(1);
   });
 });

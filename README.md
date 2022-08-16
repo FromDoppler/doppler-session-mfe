@@ -12,8 +12,6 @@ sequenceDiagram
   participant DopplerMVC
 
   Browser->>+DopplerSessionMFE: start
-  DopplerSessionMFE->>window: WRITE dopplerSessionState = { status = "unknown" }
-  DopplerSessionMFE-)window:dispatchEvent("doppler-session-state-update")
   alt User does not have a session in Doppler
     DopplerSessionMFE->>+DopplerMVC: GetUserData(cookie)
     DopplerMVC-->>-DopplerSessionMFE: Error
@@ -54,22 +52,9 @@ sequenceDiagram
 
   Browser->>+WebAppMFE: start
   WebAppMFE-)window: addEventListener ("doppler-session-state-update", . . .)
-  alt WebAppMFE loaded before DopplerSessionMFE be ready
-    WebAppMFE->>+window: READ dopplerSessionState
-    window-->>-WebAppMFE: READ undefined [*]
-    Note right of WebAppMFE: Assumes { status = "unknown" }
-  else DopplerSessionMFE was ready before load WebAppMFE
-    WebAppMFE->>+window: READ dopplerSessionState
-    window-->>-WebAppMFE: READ { status = "unknown" } [*]
-  end
+  WebAppMFE->>+window: READ dopplerSessionState
+  window-->>-WebAppMFE: READ undefined [*]
   WebAppMFE-->>-Browser: Show spinner
-
-  alt WebAppMFE loaded before DopplerSessionMFE be ready
-    window->>+WebAppMFE: on "doppler-session-state-update"
-    WebAppMFE->>+window: READ dopplerSessionState
-    window-->>-WebAppMFE: READ { status = "unknown" } [*]
-    WebAppMFE-->>-Browser: Show spinner
-  end
 
   alt User does not have a session in Doppler
     window->>+WebAppMFE: on "doppler-session-state-update"
@@ -85,6 +70,6 @@ sequenceDiagram
 ```
 
 `[*]` At the moment, the first answers for `READ dopplerSessionState` will always
-be `null` or `{ status = "unknown" }`. But in the future, _DopplerSession micro-
-frontend_ is going to be improved to cache the last session state (for example,
-in local storage), so the first steps could be omitted.
+be `null`. But in the future, _DopplerSession micro-frontend_ is going to be improved
+to cache the last session state (for example, in local storage), so the first steps
+could be omitted.

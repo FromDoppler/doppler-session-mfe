@@ -1,4 +1,7 @@
-import { DopplerSessionState } from "./abstractions";
+import {
+  DopplerSessionState,
+  DopplerSessionStateMonitor,
+} from "./abstractions";
 import { DopplerSessionStateMonitorPollingImpl } from "./DopplerSessionStateMonitorPollingImpl";
 import { DopplerLegacyClient } from "../doppler-legacy-client/abstractions";
 import { DOPPLER_SESSION_STATE_UPDATE_EVENT_TYPE } from "../public-api";
@@ -11,9 +14,10 @@ export const runMonitor = ({
   window: Window;
   dopplerLegacyClient: DopplerLegacyClient;
   keepAliveMilliseconds: number;
-}) => {
+}): DopplerSessionStateMonitor => {
   const sessionStateMonitor = new DopplerSessionStateMonitorPollingImpl({
     setInterval: window.setInterval.bind(window),
+    clearInterval: window.clearInterval.bind(window),
     dopplerLegacyClient,
     keepAliveMilliseconds,
   });
@@ -28,4 +32,6 @@ export const runMonitor = ({
   };
 
   sessionStateMonitor.start();
+
+  return sessionStateMonitor;
 };

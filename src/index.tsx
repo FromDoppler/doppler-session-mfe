@@ -17,4 +17,15 @@ const dopplerLegacyClient = useDummies
       dopplerLegacyBaseUrl,
     });
 
-runMonitor({ window, dopplerLegacyClient, keepAliveMilliseconds });
+let monitor = runMonitor({
+  window,
+  dopplerLegacyClient,
+  keepAliveMilliseconds,
+});
+
+function restartDopplerSessionMonitor() {
+  monitor.stopAndDispose();
+  monitor = runMonitor({ window, dopplerLegacyClient, keepAliveMilliseconds });
+}
+
+(window as any).restartDopplerSessionMonitor = restartDopplerSessionMonitor;

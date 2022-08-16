@@ -11,22 +11,28 @@ export class DopplerSessionStateMonitorPollingImpl
     handler: TimerHandler,
     timeout: number
   ) => number;
+  private readonly _clearInterval: (intervalID: number) => void;
   private readonly _dopplerLegacyClient;
   private readonly _keepAliveMilliseconds;
+  private _intervalID: number | undefined;
+  private _disposed: boolean = false;
 
   public onSessionUpdate: (sessionState: DopplerSessionState) => void =
     () => {};
 
   constructor({
     setInterval,
+    clearInterval,
     dopplerLegacyClient,
     keepAliveMilliseconds,
   }: {
     setInterval: (handler: TimerHandler, timeout: number) => number;
+    clearInterval: (intervalID: number) => void;
     dopplerLegacyClient: DopplerLegacyClient;
     keepAliveMilliseconds: number;
   }) {
     this._setInterval = setInterval;
+    this._clearInterval = clearInterval;
     this._dopplerLegacyClient = dopplerLegacyClient;
     this._keepAliveMilliseconds = keepAliveMilliseconds;
   }
@@ -47,10 +53,22 @@ export class DopplerSessionStateMonitorPollingImpl
   }
 
   async start(): Promise<void> {
-    this.onSessionUpdate({ status: "unknown" });
-    this._setInterval(async () => {
-      this.onSessionUpdate(await this.fetchDopplerUserData());
+    this._intervalID = this._setInterval(async () => {
+      const userData = await this.fetchDopplerUserData();
+      if (!this._disposed) {
+        this.onSessionUpdate(userData);
+      }
     }, this._keepAliveMilliseconds);
-    this.onSessionUpdate(await this.fetchDopplerUserData());
+    const userData = await this.fetchDopplerUserData();
+    if (!this._disposed) {
+      this.onSessionUpdate(userData);
+    }
+  }
+
+  stopAndDispose(): void {
+    this._disposed = true;
+    if (this._intervalID !== undefined) {
+      this._clearInterval(this._intervalID);
+    }
   }
 }
