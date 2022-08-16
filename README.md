@@ -12,6 +12,8 @@ sequenceDiagram
   participant DopplerMVC
 
   Browser->>+DopplerSessionMFE: start
+  DopplerSessionMFE->>window: WRITE dopplerSessionState = undefined
+  DopplerSessionMFE-)window:dispatchEvent("doppler-session-state-update")
   alt User does not have a session in Doppler
     DopplerSessionMFE->>+DopplerMVC: GetUserData(cookie)
     DopplerMVC-->>-DopplerSessionMFE: Error
@@ -55,7 +57,12 @@ sequenceDiagram
   WebAppMFE->>+window: READ dopplerSessionState
   window-->>-WebAppMFE: READ undefined [*]
   WebAppMFE-->>-Browser: Show spinner
-
+  alt WebAppMFE loaded before DopplerSessionMFE be ready
+    window->>+WebAppMFE: on "doppler-session-state-update"
+    WebAppMFE->>+window: READ dopplerSessionState
+    window-->>-WebAppMFE: READ undefined [*]
+    WebAppMFE-->>-Browser: Show spinner
+  end
   alt User does not have a session in Doppler
     window->>+WebAppMFE: on "doppler-session-state-update"
     WebAppMFE->>+window: READ dopplerSessionState
@@ -70,6 +77,6 @@ sequenceDiagram
 ```
 
 `[*]` At the moment, the first answers for `READ dopplerSessionState` will always
-be `null`. But in the future, _DopplerSession micro-frontend_ is going to be improved
+be `undefined`. But in the future, _DopplerSession micro-frontend_ is going to be improved
 to cache the last session state (for example, in local storage), so the first steps
 could be omitted.

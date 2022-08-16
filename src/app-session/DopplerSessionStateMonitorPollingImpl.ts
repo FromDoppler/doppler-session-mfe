@@ -53,6 +53,12 @@ export class DopplerSessionStateMonitorPollingImpl
   }
 
   async start(): Promise<void> {
+    // It allows WebApp's login to redirect to authenticated pages even when we
+    // still does not know the real session state.
+    // If we call this arbitrarily in a authenticated state, it will temporarily
+    // set the session state to unknown.
+    this.onSessionUpdate(undefined);
+
     this._intervalID = this._setInterval(async () => {
       const userData = await this.fetchDopplerUserData();
       if (!this._disposed) {
