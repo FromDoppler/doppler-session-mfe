@@ -2,8 +2,9 @@ import { DopplerSessionState } from "./app-session/abstractions";
 
 declare global {
   interface Window {
-    dopplerSessionState?: DopplerSessionState;
+    dopplerSessionState: DopplerSessionState;
     "doppler-session-mfe-configuration"?: AppConfiguration;
+    restartDopplerSessionMonitor: () => void;
   }
 }
 
