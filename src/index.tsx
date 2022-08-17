@@ -28,4 +28,4 @@ function restartDopplerSessionMonitor() {
   monitor = runMonitor({ window, dopplerLegacyClient, keepAliveMilliseconds });
 }
 
-(window as any).restartDopplerSessionMonitor = restartDopplerSessionMonitor;
+window.restartDopplerSessionMonitor = restartDopplerSessionMonitor;
