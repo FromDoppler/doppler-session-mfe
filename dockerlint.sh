@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# It is only here for reference and backward compatibility, the source of truth
-# is Jenkinsfile
-
 # Stop script on NZEC
 set -e
 # Stop script if unbound variable found (use ${var:-} if intentional)
@@ -18,23 +15,8 @@ cd "$(dirname "$0")"
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL="*"
 
-echo Verify git commit conventions...
-sh ./gitlint.sh
+# See more information in https://github.com/hadolint/hadolint
 
-echo Verify Format...
-docker build --target verify-format .
-
-echo Verify Dockerfile...
-sh ./dockerlint.sh
-
-echo Verify .sh files...
-docker build --target verify-sh .
-
-echo Restore...
-docker build --target restore .
-
-echo Build...
-docker build --target build .
-
-echo Test...
-docker build --target test .
+docker run --rm -i \
+  hadolint/hadolint \
+  < Dockerfile

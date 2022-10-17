@@ -11,6 +11,11 @@ pipeline {
                 sh 'sh ./gitlint.sh'
             }
         }
+        stage('Verify Dockerfile') {
+            steps {
+                sh 'sh ./dockerlint.sh'
+            }
+        }
         stage('Verify .sh files') {
             steps {
                 sh 'docker build --target verify-sh .'
