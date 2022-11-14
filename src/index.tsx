@@ -15,6 +15,7 @@ const dopplerLegacyClient = useDummies
   : new DopplerLegacyClientImpl({
       axiosStatic: axios,
       dopplerLegacyBaseUrl,
+      window,
     });
 
 let monitor = runMonitor({

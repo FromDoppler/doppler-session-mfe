@@ -3,14 +3,20 @@ import { AxiosInstance, AxiosStatic } from "axios";
 
 export class DopplerLegacyClientImpl implements DopplerLegacyClient {
   private axios: AxiosInstance;
+  private host: string;
 
   constructor({
     axiosStatic,
     dopplerLegacyBaseUrl,
+    window: {
+      location: { host },
+    },
   }: {
     axiosStatic: AxiosStatic;
     dopplerLegacyBaseUrl: string;
+    window: Window;
   }) {
+    this.host = host;
     this.axios = axiosStatic.create({
       baseURL: dopplerLegacyBaseUrl,
       withCredentials: true,
@@ -19,7 +25,9 @@ export class DopplerLegacyClientImpl implements DopplerLegacyClient {
 
   async getDopplerUserData(): Promise<GetDopplerUserDataResult> {
     try {
-      const axiosResponse = await this.axios.get("/WebApp/GetUserData");
+      const axiosResponse = await this.axios.get(
+        `/WebApp/GetUserData?from=${this.host}`
+      );
       const {
         jwtToken,
         user: { email: userEmail, lang: userLang, ...userRest },
