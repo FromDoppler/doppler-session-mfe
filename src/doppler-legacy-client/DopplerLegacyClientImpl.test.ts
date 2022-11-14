@@ -22,10 +22,17 @@ const createBadRequestError = (data: any = {}) => {
   return error;
 };
 
-const createSut = ({ axiosInstance }: { axiosInstance: any }) =>
+const createSut = ({
+  axiosInstance,
+  window = globalThis,
+}: {
+  axiosInstance: any;
+  window?: any;
+}) =>
   new DopplerLegacyClientImpl({
     axiosStatic: { create: () => axiosInstance } as unknown as AxiosStatic,
     dopplerLegacyBaseUrl: "baseurl.fromdoppler.net",
+    window,
   });
 
 describe(DopplerLegacyClientImpl.name, () => {
@@ -109,5 +116,24 @@ describe(DopplerLegacyClientImpl.name, () => {
         userDataNotAvailable: true,
       },
     });
+  });
+
+  it("should GET the right URL", async () => {
+    // Arrange
+    const host = "app.fromdoppler.net";
+    const emptyData = {};
+    const axiosInstance = {
+      get: jest.fn(async () => createOkResponse(emptyData)),
+    };
+
+    const sut = createSut({ axiosInstance, window: { location: { host } } });
+
+    // Act
+    const result = await sut.getDopplerUserData();
+
+    // Assert
+    expect(axiosInstance.get).toBeCalledWith(
+      "/WebApp/GetUserData?from=app.fromdoppler.net"
+    );
   });
 });
