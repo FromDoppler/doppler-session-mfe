@@ -13,7 +13,7 @@
     "@types/node": "18.11.9",
     "autoprefixer": "10.4.13",
     "eclint": "2.8.1",
-    "postcss": "8.4.16",
+    "postcss": "8.4.19",
     "prettier": "2.7.1",
     "react": "18.2.0",
     "react-scripts": "5.0.1",
