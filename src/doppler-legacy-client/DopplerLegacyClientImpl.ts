@@ -25,6 +25,8 @@ export class DopplerLegacyClientImpl implements DopplerLegacyClient {
 
   async getDopplerUserData(): Promise<GetDopplerUserDataResult> {
     try {
+      // Including host in the URL to avoid aggresive cache that
+      // ignores the origin and breaks CORS behavior
       const axiosResponse = await this.axios.get(
         `/WebApp/GetUserData?from=${this.host}`
       );
