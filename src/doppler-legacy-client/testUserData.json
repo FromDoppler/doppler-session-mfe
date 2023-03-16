@@ -2,41 +2,41 @@
   "nav": [
     {
       "title": "Inicio",
-      "url": "https://webappint.fromdoppler.net/dashboard",
+      "url": "/dashboard",
       "isEnabled": false,
       "isSelected": false,
       "idHTML": "dashboardMenu"
     },
     {
       "title": "Campañas",
-      "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
+      "url": "/Campaigns/Draft/",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [
         {
           "title": "Borradores",
-          "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
+          "url": "/Campaigns/Draft/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignDraftMenu"
         },
         {
           "title": "Programadas",
-          "url": "https://appint.fromdoppler.net/Campaigns/Scheduled/",
+          "url": "/Campaigns/Scheduled/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignScheduledMenu"
         },
         {
           "title": "Enviadas",
-          "url": "https://appint.fromdoppler.net/Campaigns/Sent/",
+          "url": "/Campaigns/Sent/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignSentMenu"
         },
         {
           "title": "Test A/B",
-          "url": "https://appint.fromdoppler.net/Campaigns/TestAB/",
+          "url": "/Campaigns/TestAB/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignTestABMenu"
@@ -46,41 +46,41 @@
     },
     {
       "title": "Listas",
-      "url": "https://appint.fromdoppler.net/Lists/SubscribersList",
+      "url": "/Lists/SubscribersList",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [
         {
           "title": "Listas Principales",
-          "url": "https://appint.fromdoppler.net/Lists/SubscribersList/",
+          "url": "/Lists/SubscribersList/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listMainMenu"
         },
         {
           "title": "Segmentos",
-          "url": "https://appint.fromdoppler.net/Lists/Segment/",
+          "url": "/Lists/Segment/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listSegmentMenu"
         },
         {
           "title": "Contactos",
-          "url": "https://appint.fromdoppler.net/Lists/MasterSubscriber/",
+          "url": "/Lists/MasterSubscriber/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listMasterSubscriberMenu"
         },
         {
           "title": "Campos Personalizados",
-          "url": "https://appint.fromdoppler.net/Lists/MasterCustomFields/",
+          "url": "/Lists/MasterCustomFields/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listCustomFieldMenu"
         },
         {
           "title": "Formularios",
-          "url": "https://appint.fromdoppler.net/Lists/Form/",
+          "url": "/Lists/Form/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listFormMenu"
@@ -90,27 +90,27 @@
     },
     {
       "title": "Reportes",
-      "url": "https://appint.fromdoppler.net/Campaigns/Reports/",
+      "url": "/Campaigns/Reports/",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [
         {
           "title": "Campañas Enviadas",
-          "url": "https://appint.fromdoppler.net/Campaigns/Reports/",
+          "url": "/Campaigns/Reports/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "reportsSentCampaign"
         },
         {
           "title": "Historial del Contacto",
-          "url": "https://appint.fromdoppler.net/Campaigns/Reports/?redirect=subHistory",
+          "url": "/Campaigns/Reports/?redirect=subHistory",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "reportsSubsHistory"
         },
         {
           "title": "Avanzados",
-          "url": "https://webappint.fromdoppler.net/reports",
+          "url": "/reports",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "webapp"
@@ -120,7 +120,7 @@
     },
     {
       "title": "Automation",
-      "url": "https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
+      "url": "/Automation/Automation/AutomationApp/",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [],
@@ -128,14 +128,14 @@
     },
     {
       "title": "Plantillas",
-      "url": "https://appint.fromdoppler.net/Templates/Main/",
+      "url": "/Templates/Main/",
       "isEnabled": false,
       "isSelected": false,
       "idHTML": "templateMenu"
     },
     {
       "title": "Integraciones",
-      "url": "https://webappint.fromdoppler.net/integrations",
+      "url": "/integrations",
       "isEnabled": false,
       "isSelected": false,
       "idHTML": "integrationsMenu"
