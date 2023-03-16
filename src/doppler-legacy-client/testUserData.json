@@ -1,42 +1,42 @@
 {
   "nav": [
     {
-      "title": "Home",
-      "url": "/Dashboard/",
+      "title": "Inicio",
+      "url": "https://webappint.fromdoppler.net/dashboard",
       "isEnabled": false,
       "isSelected": false,
-      "idHTML": "dashboard"
+      "idHTML": "dashboardMenu"
     },
     {
-      "title": "Campaigns",
-      "url": "/Campaigns/Draft/",
+      "title": "Campañas",
+      "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [
         {
-          "title": "Draft",
-          "url": "/Campaigns/Draft/",
+          "title": "Borradores",
+          "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignDraftMenu"
         },
         {
-          "title": "Scheduled",
-          "url": "/Campaigns/Scheduled/",
+          "title": "Programadas",
+          "url": "https://appint.fromdoppler.net/Campaigns/Scheduled/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignScheduledMenu"
         },
         {
-          "title": "Sent",
-          "url": "/Campaigns/Sent/",
+          "title": "Enviadas",
+          "url": "https://appint.fromdoppler.net/Campaigns/Sent/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignSentMenu"
         },
         {
-          "title": "A/B Test",
-          "url": "/Campaigns/TestAB/",
+          "title": "Test A/B",
+          "url": "https://appint.fromdoppler.net/Campaigns/TestAB/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "campaignTestABMenu"
@@ -45,42 +45,42 @@
       "idHTML": "campaignMenu"
     },
     {
-      "title": "Lists",
-      "url": "/Lists/SubscribersList/",
+      "title": "Listas",
+      "url": "https://appint.fromdoppler.net/Lists/SubscribersList",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [
         {
-          "title": "Main Lists",
-          "url": "/Lists/SubscribersList/",
+          "title": "Listas Principales",
+          "url": "https://appint.fromdoppler.net/Lists/SubscribersList/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listMainMenu"
         },
         {
-          "title": "Segments",
-          "url": "/Lists/Segment/",
+          "title": "Segmentos",
+          "url": "https://appint.fromdoppler.net/Lists/Segment/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listSegmentMenu"
         },
         {
-          "title": "Contacts",
-          "url": "/Lists/MasterSubscriber/",
+          "title": "Contactos",
+          "url": "https://appint.fromdoppler.net/Lists/MasterSubscriber/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listMasterSubscriberMenu"
         },
         {
-          "title": "Custom Fields",
-          "url": "/Lists/MasterCustomFields/",
+          "title": "Campos Personalizados",
+          "url": "https://appint.fromdoppler.net/Lists/MasterCustomFields/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listCustomFieldMenu"
         },
         {
-          "title": "Forms",
-          "url": "/Lists/Form/",
+          "title": "Formularios",
+          "url": "https://appint.fromdoppler.net/Lists/Form/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "listFormMenu"
@@ -89,28 +89,28 @@
       "idHTML": "listMenu"
     },
     {
-      "title": "Reports",
-      "url": "/Campaigns/Reports/",
+      "title": "Reportes",
+      "url": "https://appint.fromdoppler.net/Campaigns/Reports/",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [
         {
-          "title": "Sent Campaigns",
-          "url": "/Campaigns/Reports/",
+          "title": "Campañas Enviadas",
+          "url": "https://appint.fromdoppler.net/Campaigns/Reports/",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "reportsSentCampaign"
         },
         {
-          "title": "Subscriber History",
-          "url": "/Campaigns/Reports/?redirect=subHistory",
+          "title": "Historial del Contacto",
+          "url": "https://appint.fromdoppler.net/Campaigns/Reports/?redirect=subHistory",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "reportsSubsHistory"
         },
         {
-          "title": "Advanced",
-          "url": "/reports",
+          "title": "Avanzados",
+          "url": "https://webappint.fromdoppler.net/reports",
           "isEnabled": false,
           "isSelected": false,
           "idHTML": "webapp"
@@ -120,34 +120,41 @@
     },
     {
       "title": "Automation",
-      "url": "/Automation/Automation/AutomationApp/",
+      "url": "https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
       "isEnabled": false,
       "isSelected": false,
       "subNav": [],
       "idHTML": "automationMenu"
     },
     {
-      "title": "Templates",
-      "url": "/Templates/Main/",
+      "title": "Plantillas",
+      "url": "https://appint.fromdoppler.net/Templates/Main/",
       "isEnabled": false,
       "isSelected": false,
       "idHTML": "templateMenu"
+    },
+    {
+      "title": "Integraciones",
+      "url": "https://webappint.fromdoppler.net/integrations",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "integrationsMenu"
     }
   ],
   "user": {
-    "email": "bseguer@makingsense.com",
-    "fullname": "bruno seguer",
-    "lastName": "seguer",
+    "email": "dummy@makingsense.com",
+    "fullname": "Dummy Makingsense",
+    "lastName": "Makingsense",
     "plan": {
       "planType": "1",
       "idUserTypePlan": 0,
-      "description": "Available Contacts",
-      "itemDescription": "Contacts",
-      "planName": "Free Trial",
+      "description": "Contactos",
+      "itemDescription": "Contactos",
+      "planName": "Prueba Gratuita",
       "isSubscribers": "true",
       "maxSubscribers": "500",
       "remainingCredits": "500",
-      "buttonText": "UPGRADE",
+      "buttonText": "COMPRAR",
       "buttonUrl": "/ControlPanel/AccountPreferences/PreUpgrade?origin=hello_bar",
       "planDiscount": 0,
       "monthPlan": 0,
@@ -159,25 +166,25 @@
       "planFee": 0.0,
       "pendingFreeUpgrade": true
     },
-    "lang": "en",
-    "avatar": { "text": "BS", "color": "#EE9C70" },
+    "lang": "es",
+    "avatar": { "text": "DM", "color": "#EE9C70" },
     "nav": [
       {
-        "title": "Control Panel",
+        "title": "Panel de Control",
         "url": "/ControlPanel/ControlPanel/",
         "isEnabled": false,
         "isSelected": false,
         "idHTML": "controlPanel"
       },
       {
-        "title": "Download Center",
+        "title": "Centro de descargas",
         "url": "/DownloadCenter/DownloadCenter",
         "isEnabled": false,
         "isSelected": false,
         "idHTML": "downloadCenter"
       },
       {
-        "title": "Logout ",
+        "title": "Salir",
         "url": "/SignIn/SignOut",
         "isEnabled": false,
         "isSelected": false,
@@ -190,9 +197,9 @@
   },
   "alert": {
     "type": "warning",
-    "message": "Your Free trial with unlimited Campaigns up to  500  Contacts expires in  87  days.",
+    "message": "Tu Prueba gratuita con envíos ilimitados hasta 500 Contactos expira en 87 días.",
     "button": {
-      "text": "Upgrade Now",
+      "text": "¡Actualizar Ahora!",
       "url": "/ControlPanel/AccountPreferences/PreUpgrade?origin=hello_bar"
     }
   },
@@ -205,7 +212,7 @@
     "emailParameterActive": false
   },
   "notifications": [
-    "<strong>DEMO DAY: LIVE ONLINE EVENT</strong><br/><p class=\"text--small\">\nLearn how to take full advantage of your Email & Automation Marketing strategy.\n<a target=\"_blank\" href=\"https://www.fromdoppler.com/demo-day/?utm_source=fromdoppler&utm_medium=appnotification&utm_campaign=demoday\">\n<br/><strong>REGISTER FOR FREE</strong></a>.</p>"
+    "<strong>DEMO DAY: EVENTO ONLINE Y EN VIVO</strong><br/><p class='text--small'>Optimiza tus campañas a partir del comportamiento de tus Contactos con tus envíos.<a target='_blank' href='https://comercial.fromdoppler.com/demoday?utm_source=app&amp;utm_medium=notification&amp;utm_campaign=demoday'><br/><strong>REGÍSTRATE</strong></a>.</p>"
   ],
   "emptyNotificationText": "Empty Notification Text"
 }
