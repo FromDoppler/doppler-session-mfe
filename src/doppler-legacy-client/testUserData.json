@@ -1,0 +1,218 @@
+{
+  "nav": [
+    {
+      "title": "Inicio",
+      "url": "/dashboard",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "dashboardMenu"
+    },
+    {
+      "title": "Campañas",
+      "url": "/Campaigns/Draft/",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
+        {
+          "title": "Borradores",
+          "url": "/Campaigns/Draft/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignDraftMenu"
+        },
+        {
+          "title": "Programadas",
+          "url": "/Campaigns/Scheduled/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignScheduledMenu"
+        },
+        {
+          "title": "Enviadas",
+          "url": "/Campaigns/Sent/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignSentMenu"
+        },
+        {
+          "title": "Test A/B",
+          "url": "/Campaigns/TestAB/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignTestABMenu"
+        }
+      ],
+      "idHTML": "campaignMenu"
+    },
+    {
+      "title": "Listas",
+      "url": "/Lists/SubscribersList",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
+        {
+          "title": "Listas Principales",
+          "url": "/Lists/SubscribersList/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listMainMenu"
+        },
+        {
+          "title": "Segmentos",
+          "url": "/Lists/Segment/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listSegmentMenu"
+        },
+        {
+          "title": "Contactos",
+          "url": "/Lists/MasterSubscriber/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listMasterSubscriberMenu"
+        },
+        {
+          "title": "Campos Personalizados",
+          "url": "/Lists/MasterCustomFields/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listCustomFieldMenu"
+        },
+        {
+          "title": "Formularios",
+          "url": "/Lists/Form/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listFormMenu"
+        }
+      ],
+      "idHTML": "listMenu"
+    },
+    {
+      "title": "Reportes",
+      "url": "/Campaigns/Reports/",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
+        {
+          "title": "Campañas Enviadas",
+          "url": "/Campaigns/Reports/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "reportsSentCampaign"
+        },
+        {
+          "title": "Historial del Contacto",
+          "url": "/Campaigns/Reports/?redirect=subHistory",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "reportsSubsHistory"
+        },
+        {
+          "title": "Avanzados",
+          "url": "/reports",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "webapp"
+        }
+      ],
+      "idHTML": "reportMenu"
+    },
+    {
+      "title": "Automation",
+      "url": "/Automation/Automation/AutomationApp/",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [],
+      "idHTML": "automationMenu"
+    },
+    {
+      "title": "Plantillas",
+      "url": "/Templates/Main/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "templateMenu"
+    },
+    {
+      "title": "Integraciones",
+      "url": "/integrations",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "integrationsMenu"
+    }
+  ],
+  "user": {
+    "email": "dummy@makingsense.com",
+    "fullname": "Dummy Makingsense",
+    "lastName": "Makingsense",
+    "plan": {
+      "planType": "1",
+      "idUserTypePlan": 0,
+      "description": "Contactos",
+      "itemDescription": "Contactos",
+      "planName": "Prueba Gratuita",
+      "isSubscribers": "true",
+      "maxSubscribers": "500",
+      "remainingCredits": "500",
+      "buttonText": "COMPRAR",
+      "buttonUrl": "/ControlPanel/AccountPreferences/PreUpgrade?origin=hello_bar",
+      "planDiscount": 0,
+      "monthPlan": 0,
+      "subscribersCount": 0,
+      "trialActive": true,
+      "trialExpired": false,
+      "trialExpirationDate": "2022-07-08T00:00:00",
+      "trialExpirationDays": 87,
+      "planFee": 0.0,
+      "pendingFreeUpgrade": true
+    },
+    "lang": "es",
+    "avatar": { "text": "DM", "color": "#EE9C70" },
+    "nav": [
+      {
+        "title": "Panel de Control",
+        "url": "/ControlPanel/ControlPanel/",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "controlPanel"
+      },
+      {
+        "title": "Centro de descargas",
+        "url": "/DownloadCenter/DownloadCenter",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "downloadCenter"
+      },
+      {
+        "title": "Salir",
+        "url": "/SignIn/SignOut",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "signOut"
+      }
+    ],
+    "sms": { "smsEnabled": false, "remainingCredits": 0.0 },
+    "isLastPlanRequested": false,
+    "hasCampaignSent": false
+  },
+  "alert": {
+    "type": "warning",
+    "message": "Tu Prueba gratuita con envíos ilimitados hasta 500 Contactos expira en 87 días.",
+    "button": {
+      "text": "¡Actualizar Ahora!",
+      "url": "/ControlPanel/AccountPreferences/PreUpgrade?origin=hello_bar"
+    }
+  },
+  "homeUrl": "",
+  "urlBase": "/",
+  "features": {
+    "siteTrackingEnabled": true,
+    "siteTrackingActive": false,
+    "emailParameterEnabled": true,
+    "emailParameterActive": false
+  },
+  "notifications": [
+    "<strong>DEMO DAY: EVENTO ONLINE Y EN VIVO</strong><br/><p class='text--small'>Optimiza tus campañas a partir del comportamiento de tus Contactos con tus envíos.<a target='_blank' href='https://comercial.fromdoppler.com/demoday?utm_source=app&amp;utm_medium=notification&amp;utm_campaign=demoday'><br/><strong>REGÍSTRATE</strong></a>.</p>"
+  ],
+  "emptyNotificationText": "Empty Notification Text"
+}
