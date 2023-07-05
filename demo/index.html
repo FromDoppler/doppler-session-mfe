@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -28,7 +28,7 @@
         "\\?(?:.+&)*" +
           "dmm_version=((?:(?:main)|(?:INT)|(?:pr-\\d+)|(?:v\\d+(?:\\.\\d+){0,2})))" +
           "(?:-([a-f\\d]{40}))?" +
-          "(?:&.*)?$"
+          "(?:&.*)?$",
       );
       const versionParamRegexResult = location.href.match(versionParamRegex);
       const defaultVersion = "main";
@@ -89,10 +89,10 @@
       };
 
       new AssetServices().load(
-        "https://cdn.fromdoppler.com/doppler-style-guide/asset-manifest-v1.json"
+        "https://cdn.fromdoppler.com/doppler-style-guide/asset-manifest-v1.json",
       );
       new AssetServices().load(
-        "https://cdn.fromdoppler.com/editors-webapp/asset-manifest-v1.json"
+        "https://cdn.fromdoppler.com/editors-webapp/asset-manifest-v1.json",
       );
       new AssetServices().load(scriptUrl);
     </script>

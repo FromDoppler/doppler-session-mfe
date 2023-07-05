@@ -9,7 +9,7 @@ export class DopplerSessionStateMonitorPollingImpl
 {
   private readonly _setInterval: (
     handler: TimerHandler,
-    timeout: number
+    timeout: number,
   ) => number;
   private readonly _clearInterval: (intervalID: number) => void;
   private readonly _dopplerLegacyClient;

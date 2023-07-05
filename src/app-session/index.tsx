@@ -27,7 +27,7 @@ export const runMonitor = ({
     window.dispatchEvent(
       new CustomEvent(DOPPLER_SESSION_STATE_UPDATE_EVENT_TYPE, {
         detail: sessionState,
-      })
+      }),
     );
   };
 

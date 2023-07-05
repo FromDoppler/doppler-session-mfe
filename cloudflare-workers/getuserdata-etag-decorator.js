@@ -3,8 +3,8 @@
 addEventListener("fetch", (event) => {
   event.respondWith(
     handleRequest(event.request).catch(
-      (err) => new Response(err.stack, { status: 500 })
-    )
+      (err) => new Response(err.stack, { status: 500 }),
+    ),
   );
 });
 
@@ -80,7 +80,7 @@ function readOrigin(request) {
 async function sha1(data) {
   const arrayBuffer = await crypto.subtle.digest(
     { name: "SHA-1" },
-    new TextEncoder().encode(data)
+    new TextEncoder().encode(data),
   );
   const bytes = Array.from(new Uint8Array(arrayBuffer));
   const exa = bytes.map((x) => x.toString(16).padStart(2, "0")).join("");
