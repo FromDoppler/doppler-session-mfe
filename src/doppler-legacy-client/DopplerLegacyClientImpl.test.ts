@@ -133,7 +133,7 @@ describe(DopplerLegacyClientImpl.name, () => {
 
     // Assert
     expect(axiosInstance.get).toBeCalledWith(
-      "/WebApp/GetUserData?from=app.fromdoppler.net"
+      "/WebApp/GetUserData?from=app.fromdoppler.net",
     );
   });
 });

@@ -51,7 +51,7 @@ const createDopplerLegacyClientDouble = ({
         () =>
           new Promise((resolve) => {
             getDopplerUserDataResolve = resolve;
-          })
+          }),
       ),
     } as DopplerLegacyClient,
     resolveGetDopplerUserDataWithTheNextResult,
@@ -141,7 +141,7 @@ describe(runMonitor.name, () => {
     expect(window.dispatchEvent).toHaveBeenCalledTimes(2);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
     expect(lastDispatchedEventRef.value.type).toBe(
-      "doppler-session-state-update"
+      "doppler-session-state-update",
     );
 
     // Act
@@ -176,7 +176,7 @@ describe(runMonitor.name, () => {
     expect(window.dispatchEvent).toHaveBeenCalledTimes(3);
     expect(lastDispatchedEventRef.value).toBeInstanceOf(CustomEvent);
     expect(lastDispatchedEventRef.value.type).toBe(
-      "doppler-session-state-update"
+      "doppler-session-state-update",
     );
   });
 
