@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "7.22.5",
+    "@babel/core": "7.22.6",
     "@babel/plugin-syntax-flow": "7.22.5",
     "@babel/plugin-transform-react-jsx": "7.22.5",
     "@testing-library/dom": "9.3.1",
