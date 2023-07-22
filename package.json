@@ -10,7 +10,7 @@
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/user-event": "14.4.3",
     "@types/jest": "29.5.3",
-    "@types/node": "18.16.20",
+    "@types/node": "18.17.0",
     "autoprefixer": "10.4.14",
     "eclint": "2.8.1",
     "postcss": "8.4.25",
