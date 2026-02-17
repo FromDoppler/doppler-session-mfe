@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "7.22.7",
-    "@babel/plugin-syntax-flow": "7.22.5",
-    "@babel/plugin-transform-react-jsx": "7.22.5",
+    "@babel/core": "7.29.0",
+    "@babel/plugin-syntax-flow": "7.28.6",
+    "@babel/plugin-transform-react-jsx": "7.28.6",
     "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/user-event": "14.6.1",
