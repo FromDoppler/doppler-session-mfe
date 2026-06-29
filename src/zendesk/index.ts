@@ -4,6 +4,11 @@ const ZENDESK_SCRIPT_ID = "ze-snippet";
 const ZENDESK_SCRIPT_BASE_URL =
   "https://static.zdassets.com/ekr/snippet.js?key=";
 
+// Single key for every user, same value in all environments. It was hardcoded
+// in the webapp's index.html before the migration; we bake the same default
+// here so the widget loads even if the host does not inject `zendeskKey`.
+export const DEFAULT_ZENDESK_KEY = "4a6aee15-24bf-4a8b-964f-11eaaf7e5856";
+
 // Horario de atención: (UTC-03:00) Buenos Aires, 8:00 a 20:00 => 11..23 UTC.
 const ONLINE_FROM_UTC_HOUR = 11;
 const ONLINE_TO_UTC_HOUR = 23;
@@ -47,10 +52,10 @@ export const runZendesk = ({
   initialLocale,
 }: {
   window: ZendeskWindow;
-  zendeskKey: string;
+  zendeskKey?: string;
   initialLocale?: string;
 }): DopplerZendesk => {
-  loadZendeskScript(window, zendeskKey);
+  loadZendeskScript(window, zendeskKey || DEFAULT_ZENDESK_KEY);
 
   const dopplerZendesk: DopplerZendesk = {
     isOnline: () => isZendeskChatOnline(),

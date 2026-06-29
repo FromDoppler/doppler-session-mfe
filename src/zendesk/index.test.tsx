@@ -1,4 +1,4 @@
-import { runZendesk } from ".";
+import { DEFAULT_ZENDESK_KEY, runZendesk } from ".";
 import { ZendeskWindow } from "./abstractions";
 
 const zendeskKey = "4a6aee15-24bf-4a8b-964f-11eaaf7e5856";
@@ -55,7 +55,21 @@ describe(runZendesk.name, () => {
     expect(window.dopplerZendesk).toBe(dopplerZendesk);
   });
 
-  it("should not load the snippet when the key is empty", () => {
+  it("should fall back to the baked-in default key when none is provided", () => {
+    // Arrange
+    const { window, appendedScripts } = createWindowDouble();
+
+    // Act
+    runZendesk({ window });
+
+    // Assert
+    expect(appendedScripts).toHaveLength(1);
+    expect(appendedScripts[0].src).toBe(
+      `https://static.zdassets.com/ekr/snippet.js?key=${DEFAULT_ZENDESK_KEY}`,
+    );
+  });
+
+  it("should fall back to the default key when the host injects an empty key", () => {
     // Arrange
     const { window, appendedScripts } = createWindowDouble();
 
@@ -63,8 +77,10 @@ describe(runZendesk.name, () => {
     runZendesk({ window, zendeskKey: "" });
 
     // Assert
-    expect(appendedScripts).toHaveLength(0);
-    // The API is still published so the webapp does not break.
+    expect(appendedScripts).toHaveLength(1);
+    expect(appendedScripts[0].src).toBe(
+      `https://static.zdassets.com/ekr/snippet.js?key=${DEFAULT_ZENDESK_KEY}`,
+    );
     expect(window.dopplerZendesk).toBeDefined();
   });
 

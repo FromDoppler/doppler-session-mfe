@@ -15,7 +15,7 @@ interface AppConfiguration {
   dopplerLegacyBaseUrl: string;
   useDummies: boolean;
   keepAliveMilliseconds: number;
-  zendeskKey: string;
+  zendeskKey?: string;
 }
 
 export const DOPPLER_SESSION_STATE_UPDATE_EVENT_TYPE =
