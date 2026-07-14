@@ -232,9 +232,7 @@ describe(runZendesk.name, () => {
     const dopplerZendesk = runZendesk({ window, zendeskKey });
 
     // Act & Assert
-    expect(() =>
-      dopplerZendesk.loginUser(async () => "jwt"),
-    ).not.toThrow();
+    expect(() => dopplerZendesk.loginUser(async () => "jwt")).not.toThrow();
     expect(() => dopplerZendesk.logoutUser()).not.toThrow();
   });
 });
