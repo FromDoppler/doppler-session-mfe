@@ -1,4 +1,8 @@
-import { DopplerLegacyClient, GetDopplerUserDataResult } from "./abstractions";
+import {
+  DopplerLegacyClient,
+  GetDopplerUserDataResult,
+  GetZendeskJwtResult,
+} from "./abstractions";
 import { AxiosInstance, AxiosStatic } from "axios";
 
 export class DopplerLegacyClientImpl implements DopplerLegacyClient {
@@ -63,6 +67,29 @@ export class DopplerLegacyClientImpl implements DopplerLegacyClient {
         success: false,
         error: {
           userDataNotAvailable: true,
+          innerError: error,
+        },
+      };
+    }
+  }
+
+  async getZendeskJwt(): Promise<GetZendeskJwtResult> {
+    try {
+      // Including host in the URL to avoid aggresive cache that
+      // ignores the origin and breaks CORS behavior
+      const axiosResponse = await this.axios.get(
+        `/WebApp/GetZendeskJwt?from=${this.host}`,
+      );
+      return {
+        success: true,
+        value: { zendeskJwt: axiosResponse.data.zendeskJwt },
+      };
+    } catch (error) {
+      console.error("Error loading GetZendeskJwt", error);
+      return {
+        success: false,
+        error: {
+          zendeskJwtNotAvailable: true,
           innerError: error,
         },
       };

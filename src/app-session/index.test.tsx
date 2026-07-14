@@ -53,6 +53,7 @@ const createDopplerLegacyClientDouble = ({
             getDopplerUserDataResolve = resolve;
           }),
       ),
+      getZendeskJwt: jest.fn(),
     } as DopplerLegacyClient,
     resolveGetDopplerUserDataWithTheNextResult,
   };

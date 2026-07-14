@@ -25,6 +25,17 @@ export type GetDopplerUserDataResult = Result<
   DopplerUserDataNotAvailableError
 >;
 
+type ZendeskJwtNotAvailableError = {
+  zendeskJwtNotAvailable: true;
+  innerError: unknown;
+};
+
+export type GetZendeskJwtResult = Result<
+  { zendeskJwt: string },
+  ZendeskJwtNotAvailableError
+>;
+
 export interface DopplerLegacyClient {
   getDopplerUserData: () => Promise<GetDopplerUserDataResult>;
+  getZendeskJwt: () => Promise<GetZendeskJwtResult>;
 }

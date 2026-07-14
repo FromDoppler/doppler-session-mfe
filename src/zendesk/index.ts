@@ -1,12 +1,9 @@
-import { DopplerZendesk, ZendeskWindow } from "./abstractions";
+import { DopplerZendeskController, ZendeskWindow } from "./abstractions";
 
 const ZENDESK_SCRIPT_ID = "ze-snippet";
 const ZENDESK_SCRIPT_BASE_URL =
   "https://static.zdassets.com/ekr/snippet.js?key=";
 
-// Single key for every user, same value in all environments. It was hardcoded
-// in the webapp's index.html before the migration; we bake the same default
-// here so the widget loads even if the host does not inject `zendeskKey`.
 export const DEFAULT_ZENDESK_KEY = "4a6aee15-24bf-4a8b-964f-11eaaf7e5856";
 
 // Horario de atención: (UTC-03:00) Buenos Aires, 8:00 a 20:00 => 11..23 UTC.
@@ -46,6 +43,39 @@ const setZendeskLocale = (window: ZendeskWindow, locale?: string) => {
   }
 };
 
+const loginZendeskUser = (
+  window: ZendeskWindow,
+  getZendeskJwt: () => Promise<string | undefined>,
+) => {
+  if (!window.zE) {
+    return;
+  }
+  window.zE(
+    "messenger",
+    "loginUser",
+    (callback: (jwt: string) => void) => {
+      // Zendesk re-invokes this to renew the JWT (e.g. on a 401), so it must
+      // always fetch a fresh one rather than reusing a cached value.
+      getZendeskJwt().then((jwt) => {
+        if (jwt) {
+          callback(jwt);
+        }
+      });
+    },
+    (error: unknown) => {
+      if (error) {
+        console.error("Zendesk loginUser failed", error);
+      }
+    },
+  );
+};
+
+const logoutZendeskUser = (window: ZendeskWindow) => {
+  if (window.zE) {
+    window.zE("messenger", "logoutUser");
+  }
+};
+
 export const runZendesk = ({
   window,
   zendeskKey,
@@ -54,18 +84,22 @@ export const runZendesk = ({
   window: ZendeskWindow;
   zendeskKey?: string;
   initialLocale?: string;
-}): DopplerZendesk => {
+}): DopplerZendeskController => {
   loadZendeskScript(window, zendeskKey || DEFAULT_ZENDESK_KEY);
 
-  const dopplerZendesk: DopplerZendesk = {
+  const dopplerZendesk = {
     isOnline: () => isZendeskChatOnline(),
     open: () => openZendeskChat(window),
-    setLocale: (locale) => setZendeskLocale(window, locale),
+    setLocale: (locale?: string) => setZendeskLocale(window, locale),
   };
 
   // Publish the API as soon as possible so the webapp can find it.
   window.dopplerZendesk = dopplerZendesk;
   dopplerZendesk.setLocale(initialLocale);
 
-  return dopplerZendesk;
+  return {
+    ...dopplerZendesk,
+    loginUser: (getZendeskJwt) => loginZendeskUser(window, getZendeskJwt),
+    logoutUser: () => logoutZendeskUser(window),
+  };
 };
