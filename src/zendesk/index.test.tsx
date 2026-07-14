@@ -52,7 +52,20 @@ describe(runZendesk.name, () => {
       `https://static.zdassets.com/ekr/snippet.js?key=${zendeskKey}`,
     );
     expect(appendedScripts[0].async).toBe(true);
-    expect(window.dopplerZendesk).toBe(dopplerZendesk);
+    // `window.dopplerZendesk` must expose only the public API: `loginUser`/
+    // `logoutUser` are internal and must never leak to the host apps.
+    expect(window.dopplerZendesk).toEqual({
+      isOnline: expect.any(Function),
+      open: expect.any(Function),
+      setLocale: expect.any(Function),
+    });
+    expect(dopplerZendesk).toMatchObject({
+      isOnline: expect.any(Function),
+      open: expect.any(Function),
+      setLocale: expect.any(Function),
+      loginUser: expect.any(Function),
+      logoutUser: expect.any(Function),
+    });
   });
 
   it("should fall back to the baked-in default key when none is provided", () => {
@@ -153,5 +166,75 @@ describe(runZendesk.name, () => {
     jest.setSystemTime(new Date("2026-06-25T10:00:00Z"));
     expect(dopplerZendesk.isOnline()).toBe(false);
     jest.useRealTimers();
+  });
+
+  it("should log in the Zendesk user with a freshly fetched JWT", async () => {
+    // Arrange
+    const { window, zE, simulateZendeskLoaded } = createWindowDouble();
+    simulateZendeskLoaded();
+    const dopplerZendesk = runZendesk({ window, zendeskKey });
+    const getZendeskJwt = jest.fn(async () => "fresh-jwt");
+
+    // Act
+    dopplerZendesk.loginUser(getZendeskJwt);
+    const [, , jwtCallback] = zE.mock.calls.find(
+      ([, action]) => action === "loginUser",
+    )!;
+    const callback = jest.fn();
+    await jwtCallback(callback);
+
+    // Assert
+    expect(zE).toHaveBeenCalledWith(
+      "messenger",
+      "loginUser",
+      expect.any(Function),
+      expect.any(Function),
+    );
+    expect(getZendeskJwt).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalledWith("fresh-jwt");
+  });
+
+  it("should not invoke Zendesk's callback when the JWT cannot be fetched", async () => {
+    // Arrange
+    const { window, zE, simulateZendeskLoaded } = createWindowDouble();
+    simulateZendeskLoaded();
+    const dopplerZendesk = runZendesk({ window, zendeskKey });
+    const getZendeskJwt = jest.fn(async () => undefined);
+
+    // Act
+    dopplerZendesk.loginUser(getZendeskJwt);
+    const [, , jwtCallback] = zE.mock.calls.find(
+      ([, action]) => action === "loginUser",
+    )!;
+    const callback = jest.fn();
+    await jwtCallback(callback);
+
+    // Assert
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  it("should log out the Zendesk user", () => {
+    // Arrange
+    const { window, zE, simulateZendeskLoaded } = createWindowDouble();
+    simulateZendeskLoaded();
+    const dopplerZendesk = runZendesk({ window, zendeskKey });
+
+    // Act
+    dopplerZendesk.logoutUser();
+
+    // Assert
+    expect(zE).toHaveBeenCalledWith("messenger", "logoutUser");
+  });
+
+  it("should not break loginUser/logoutUser when invoked before Zendesk is loaded", () => {
+    // Arrange
+    const { window } = createWindowDouble();
+    const dopplerZendesk = runZendesk({ window, zendeskKey });
+
+    // Act & Assert
+    expect(() =>
+      dopplerZendesk.loginUser(async () => "jwt"),
+    ).not.toThrow();
+    expect(() => dopplerZendesk.logoutUser()).not.toThrow();
   });
 });
