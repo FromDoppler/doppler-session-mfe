@@ -33,7 +33,9 @@ window.addEventListener(DOPPLER_SESSION_STATE_UPDATE_EVENT_TYPE, (event) => {
     zendesk.loginUser(() =>
       dopplerLegacyClient
         .getZendeskJwt()
-        .then((result) => (result.success ? result.value.zendeskJwt : undefined)),
+        .then((result) =>
+          result.success ? result.value.zendeskJwt : undefined,
+        ),
     );
   } else if (sessionState?.status === "non-authenticated") {
     zendesk.logoutUser();
