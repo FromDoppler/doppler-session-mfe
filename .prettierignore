@@ -25,3 +25,4 @@ doppler-jenkins-ci.groovy
 /build
 *.env
 *.env.*
+src/app-session/DopplerSessionStateMonitorPollingImpl.ts
