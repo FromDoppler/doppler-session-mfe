@@ -4,9 +4,7 @@ import {
   DopplerSessionStateMonitor,
 } from "./abstractions";
 
-export class DopplerSessionStateMonitorPollingImpl
-  implements DopplerSessionStateMonitor
-{
+export class DopplerSessionStateMonitorPollingImpl implements DopplerSessionStateMonitor {
   private readonly _setInterval: (
     handler: TimerHandler,
     timeout: number,
