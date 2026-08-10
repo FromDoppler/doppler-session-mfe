@@ -1,5 +1,6 @@
 import axios from "axios";
 import { runMonitor } from "./app-session";
+import { ensureCollaboratorHasAccessOrRedirect } from "./app-session/collaboratorRedirect";
 import { DopplerSessionState } from "./app-session/abstractions";
 import { DopplerLegacyClientDummyImpl } from "./doppler-legacy-client/DopplerLegacyClientDummyImpl";
 import { DopplerLegacyClientImpl } from "./doppler-legacy-client/DopplerLegacyClientImpl";
@@ -54,3 +55,5 @@ function restartDopplerSessionMonitor() {
 }
 
 window.restartDopplerSessionMonitor = restartDopplerSessionMonitor;
+window.ensureCollaboratorHasAccessOrRedirect = (idSection) =>
+  ensureCollaboratorHasAccessOrRedirect({ window, idSection });
