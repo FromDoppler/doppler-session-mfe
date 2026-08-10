@@ -6,6 +6,9 @@ declare global {
     dopplerSessionState: DopplerSessionState;
     "doppler-session-mfe-configuration"?: AppConfiguration;
     restartDopplerSessionMonitor: () => void;
+    ensureCollaboratorHasAccessOrRedirect: (
+      idSection?: number | string | null,
+    ) => boolean;
     dopplerZendesk?: DopplerZendesk;
     zE?: (...args: unknown[]) => void;
   }
