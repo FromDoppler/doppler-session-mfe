@@ -1,5 +1,9 @@
 import { timeout } from "../common/utils";
-import { DopplerLegacyClient, GetDopplerUserDataResult } from "./abstractions";
+import {
+  DopplerLegacyClient,
+  GetDopplerUserDataResult,
+  GetZendeskJwtResult,
+} from "./abstractions";
 import testUserData from "./testUserData.json";
 
 let counter = 0;
@@ -34,4 +38,25 @@ export class DopplerLegacyClientDummyImpl implements DopplerLegacyClient {
         };
       }
     };
+
+  public getZendeskJwt: () => Promise<GetZendeskJwtResult> = async () => {
+    try {
+      console.log("Begin getZendeskJwt...");
+      await timeout(500);
+      const result = {
+        success: true as const,
+        value: { zendeskJwt: `dummy-zendesk-jwt-${counter++}` },
+      };
+      console.log("End getZendeskJwt", { result });
+      return result;
+    } catch (e) {
+      return {
+        success: false,
+        error: {
+          zendeskJwtNotAvailable: true,
+          innerError: e,
+        },
+      };
+    }
+  };
 }
