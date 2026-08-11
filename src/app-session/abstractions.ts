@@ -1,18 +1,18 @@
 export type CollaboratorViewAccessRight = {
   idSection?: number | string;
   url?: string | null;
-  [prop: string]: unknown;
+  [prop: string]: any;
 };
 
 export type RawUserAccount = {
   userProfileType?: string;
   collaboratorViewAccessRights?: CollaboratorViewAccessRight[];
-  [prop: string]: unknown;
+  [prop: string]: any;
 };
 
 export type RawDopplerUserData = {
   userAccount?: RawUserAccount;
-  [prop: string]: unknown;
+  [prop: string]: any;
 };
 
 export type AuthenticatedDopplerSessionState = {
