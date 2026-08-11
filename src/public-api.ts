@@ -15,6 +15,7 @@ declare global {
 }
 
 interface AppConfiguration {
+  loginURL: string;
   dopplerLegacyBaseUrl: string;
   useDummies: boolean;
   keepAliveMilliseconds: number;

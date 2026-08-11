@@ -9,6 +9,7 @@ import { runZendesk } from "./zendesk";
 
 const configuration = window["doppler-session-mfe-configuration"];
 const {
+  loginURL = "https://app.fromdoppler.com/login",
   dopplerLegacyBaseUrl = "https://app2.fromdoppler.com",
   useDummies = true,
   keepAliveMilliseconds = 300000,
@@ -56,4 +57,4 @@ function restartDopplerSessionMonitor() {
 
 window.restartDopplerSessionMonitor = restartDopplerSessionMonitor;
 window.ensureCollaboratorHasAccessOrRedirect = (idSection) =>
-  ensureCollaboratorHasAccessOrRedirect({ window, idSection });
+  ensureCollaboratorHasAccessOrRedirect({ loginURL, window, idSection });

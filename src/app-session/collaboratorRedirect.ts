@@ -5,7 +5,6 @@ import {
 } from "./abstractions";
 
 const COLLABORATOR_PROFILE_TYPE = "COLLABORATOR";
-const LOGIN_URL = "https://app.fromdoppler.com/login";
 
 const normalizeSectionId = (idSection?: number | string | null) => {
   const numericSectionId = Number(idSection);
@@ -61,6 +60,7 @@ const getFirstAllowedSectionUrl = (
 
 export const getCollaboratorRedirectUrl = (
   dopplerSessionState: DopplerSessionState,
+  loginURL: string,
   idSection?: number | string | null,
 ) => {
   if (
@@ -73,19 +73,22 @@ export const getCollaboratorRedirectUrl = (
   return (
     getFirstAllowedSectionUrl(
       getCollaboratorViewAccessRights(dopplerSessionState),
-    ) ?? LOGIN_URL
+    ) ?? loginURL
   );
 };
 
 export const ensureCollaboratorHasAccessOrRedirect = ({
+  loginURL,
   window,
   idSection,
 }: {
+  loginURL: string;
   window: Window;
   idSection?: number | string | null;
 }) => {
   const redirectUrl = getCollaboratorRedirectUrl(
     window.dopplerSessionState,
+    loginURL,
     idSection,
   );
 
